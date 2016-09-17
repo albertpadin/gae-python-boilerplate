@@ -1,0 +1,15 @@
+{% extends 'pages/index.html' %}
+
+{% block  content %}
+    {% include 'blocks/content_form.html' %}
+    {% for content in contents %}
+        <div>
+            <h2>{{ content.title }}</h2>
+            <p>{{ content.content }}</p>
+        </div>
+    {% endfor %}
+
+    {% if next_cursor %}
+        <a href="{{ uri_for(constants.ROUTE_CONTENT, cursor=next_cursor) }}">Next</a>
+    {% endif %}
+{% endblock %}

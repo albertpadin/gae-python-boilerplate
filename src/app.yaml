@@ -1,0 +1,49 @@
+application: boilerplate
+version: master
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /favicon\.ico
+  static_files: application/frontend/static/img/favicon.ico
+  upload: application/frontend/static/favicon\.ico
+
+- url: /static
+  static_dir: application/frontend/static
+
+- url: /_ah/queue/deferred
+  script: google.appengine.ext.deferred.deferred.application
+  login: admin
+
+- url: /admin.*
+  script: main.app
+  login: admin
+
+- url: .*
+  script: main.app
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
+- name: jinja2
+  version: "2.6"
+- name: ssl
+  version: latest
+
+
+builtins:
+- deferred: on
+
+
+error_handlers:
+- file: frontend/error_pages/default_error.html
+
+- error_code: over_quota
+  file: frontend/error_pages/over_quota.html
+
+- error_code: dos_api_denial
+  file: frontend/error_pages/dos_api_denial.html
+
+- error_code: timeout
+  file: frontend/error_pages/timeout.html
